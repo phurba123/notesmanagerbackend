@@ -23,6 +23,7 @@ router.post('/create',(req,res)=>
 // getting single user
 router.get('/:name',(req,res)=>
 {
+    console.log('passed param : ', req.params.name)
     res.json({
         "status":200,
         "info":"you are requesting info of a user named "+req.params.name
