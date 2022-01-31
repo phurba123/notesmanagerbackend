@@ -3,6 +3,14 @@ let appConfig = require('./appconfig');
 const express = require('express');
 // express app
 const app = express();
+let fs = require('fs');
+const mongoose = require('mongoose');
+//Bootstrap models
+let modelsPath = ('./app/models');
+fs.readdirSync(modelsPath).forEach(function (file) {
+    if (~file.indexOf('.js')) require(modelsPath + '/' + file)
+});
+// end Bootstrap models
 
 // routes files import
 const userRoutes = require('./app/routes/userRoute');
@@ -22,7 +30,33 @@ server.on('error', onError);
 function onListening()
 {
     console.log('server listening on port : ' + appConfig.port);
+
+    // connect to db on server setup
+    mongoose.connect(appConfig.db.uri,{useNewUrlParser: true, useUnifiedTopology: true }).catch((err)=>
+    {
+        console.log('error while establishing db connection : ', err);
+    })
 }
+
+// events for mongoose connection
+mongoose.connection.on('error',(err)=>
+{
+    console.log('mongoose error handler report : ',err)
+})
+
+mongoose.connection.on('open', (err)=>
+{
+    if(err)
+    {
+        console.log(err)
+    }
+    else
+    {
+        console.log('database connection open');
+        
+    }
+})
+// end of events for mongoose connections
 
 /**
  * Event listener for HTTP server "error" event.
