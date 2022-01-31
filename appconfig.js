@@ -3,7 +3,7 @@ let appConfig={
     env:'dev',
     allowedCorsOrigin:'*',
     db:{
-        // uri:'mongodb://127.0.0.1:27017/ToDoListDB'
+        uri:'mongodb+srv://phursang:phursang%40123@cluster0.v7a1n.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
     },
     apiVersion:'/api/v1'
 }
