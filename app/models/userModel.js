@@ -3,11 +3,6 @@ let schema = mongoose.Schema;
 
 let userSchema = new schema(
     {
-        userId: {
-            type: String,
-            index: true,
-            unique: true
-        },
         firstName: {
             type: String,
             default: ''
@@ -26,6 +21,7 @@ let userSchema = new schema(
         },
         email: {
             type: String,
+            unique: true,
             default: ''
         },
 
