@@ -6,12 +6,15 @@ const app = express();
 let fs = require('fs');
 const mongoose = require('mongoose');
 let bodyParser = require('body-parser');
-let iplogger = require('./app/middleware/iplogger')
+let iplogger = require('./app/middleware/iplogger');
+const helmet = require('helmet');
+require('dotenv').config();
 
 // global middlewares
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(iplogger.logIp)
+app.use(helmet());
+app.use(iplogger.logIp);
 // end fo global middlewares
 
 //Bootstrap models
@@ -40,7 +43,7 @@ function onListening() {
     console.log('server listening on port : ' + appConfig.port);
 
     // connect to db on server setup
-    mongoose.connect(appConfig.db.uri, { useNewUrlParser: true, useUnifiedTopology: true }).catch((err) => {
+    mongoose.connect(process.env.DEV_DBURI, { useNewUrlParser: true}).catch((err) => {
         console.log('error while establishing db connection : ', err);
     })
 }

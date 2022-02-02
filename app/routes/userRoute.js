@@ -17,9 +17,15 @@ routes for users crud operation
 router.get('/all', userController.getAllUsers);
 
 // creating new user
-router.post('/create',userController.createUser);
+router.post('/create', userController.createUser);
 
 // getting single user
-router.get('user/:id', userController.singleUser);
+router.get('/user/:userId', userController.singleUser);
+
+// signing in user
+router.post('/login', userController.signInUser);
+
+// logout , TODO, add auth middleware to signout later
+router.post('/logout/:userId', userController.signOutUser);
 
 module.exports = router;
