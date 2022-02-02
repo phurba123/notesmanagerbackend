@@ -5,6 +5,11 @@ const express = require('express');
 const app = express();
 let fs = require('fs');
 const mongoose = require('mongoose');
+let bodyParser = require('body-parser');
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json())
+
 //Bootstrap models
 let modelsPath = ('./app/models');
 fs.readdirSync(modelsPath).forEach(function (file) {
@@ -16,7 +21,7 @@ fs.readdirSync(modelsPath).forEach(function (file) {
 const userRoutes = require('./app/routes/userRoute');
 
 // routes direct
-app.use(`${appConfig.apiVersion}/users`,userRoutes);
+app.use(`${appConfig.apiVersion}/users`, userRoutes);
 
 
 // create and listen to server
@@ -27,33 +32,27 @@ server.on('error', onError);
 
 // callback function when server is listening
 
-function onListening()
-{
+function onListening() {
     console.log('server listening on port : ' + appConfig.port);
 
     // connect to db on server setup
-    mongoose.connect(appConfig.db.uri,{useNewUrlParser: true, useUnifiedTopology: true }).catch((err)=>
-    {
+    mongoose.connect(appConfig.db.uri, { useNewUrlParser: true, useUnifiedTopology: true }).catch((err) => {
         console.log('error while establishing db connection : ', err);
     })
 }
 
 // events for mongoose connection
-mongoose.connection.on('error',(err)=>
-{
-    console.log('mongoose error handler report : ',err)
+mongoose.connection.on('error', (err) => {
+    console.log('mongoose error handler report : ', err)
 })
 
-mongoose.connection.on('open', (err)=>
-{
-    if(err)
-    {
+mongoose.connection.on('open', (err) => {
+    if (err) {
         console.log(err)
     }
-    else
-    {
+    else {
         console.log('database connection open');
-        
+
     }
 })
 // end of events for mongoose connections
@@ -62,7 +61,7 @@ mongoose.connection.on('open', (err)=>
  * Event listener for HTTP server "error" event.
  */
 
- function onError(error) {
+function onError(error) {
     if (error.syscall !== 'listen') {
         logger.error(error.code + ' not equal listen', 'serverOnErrorHandler', 10)
         throw error;
@@ -73,7 +72,7 @@ mongoose.connection.on('open', (err)=>
     switch (error.code) {
         case 'EACCES':
             // logger.error(error.code + ':elavated privileges required', 'serverOnErrorHandler', 10);
-            console.log('error : ',error)
+            console.log('error : ', error)
             // process.exit(1);
             break;
         case 'EADDRINUSE':

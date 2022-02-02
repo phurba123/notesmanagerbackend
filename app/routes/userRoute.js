@@ -1,6 +1,11 @@
 var express = require('express');
 var router = express.Router();
-const appConfig = require('../../appConfig')
+const appConfig = require('../../appConfig');
+
+/*
+controllers import
+*/
+let userController = require('../controller/user');
 
 // middleware section , either use local middleware to this route or make common middleware ,import and use it
 
@@ -9,24 +14,12 @@ routes for users crud operation
 */
 
 // getting all the users
-router.get('/', (req,res)=>
-{
-    res.send('you looked for https://localhost:3000/api/v1/users for collecting all the users info')
-})
+router.get('/all', userController.getAllUsers);
 
 // creating new user
-router.post('/create',(req,res)=>
-{
-    res.json({"status":200,"info":"you are requesting to create a new user"});
-})
+router.post('/create',userController.createUser);
 
 // getting single user
-router.get('/:name',(req,res)=>
-{
-    res.json({
-        "status":200,
-        "info":"you are requesting info of a user named "+req.params.name
-    });
-})
+router.get('user/:id', userController.singleUser);
 
 module.exports = router;
