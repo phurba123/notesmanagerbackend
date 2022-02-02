@@ -6,9 +6,13 @@ const app = express();
 let fs = require('fs');
 const mongoose = require('mongoose');
 let bodyParser = require('body-parser');
+let iplogger = require('./app/middleware/iplogger')
 
+// global middlewares
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+app.use(iplogger.logIp)
+// end fo global middlewares
 
 //Bootstrap models
 let modelsPath = ('./app/models');
