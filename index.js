@@ -10,8 +10,6 @@ let iplogger = require('./app/middleware/iplogger');
 const helmet = require('helmet');
 require('dotenv').config();
 
-console.log('just trial for github runner check');
-
 // global middlewares
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
