@@ -27,5 +27,9 @@ router.post('/login', userController.signInUser);
 
 // logout , TODO, add auth middleware to signout later
 router.post('/logout/:userId', userController.signOutUser);
+router.get('/hello', (req,res)=>
+{
+    res.send('hello phursang howdy')
+})
 
 module.exports = router;
