@@ -1,4 +1,4 @@
-const appConfig = require('../../appConfig');
+const appConfig = require('../../appconfig');
 
 
 let requestIpLogger = (req, res, next) => {
