@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const appConfig = require('../../appConfig');
+const appConfig = require('../../appconfig');
 
 /*
 controllers import
