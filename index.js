@@ -26,9 +26,11 @@ fs.readdirSync(modelsPath).forEach(function (file) {
 
 // routes files import
 const userRoutes = require('./app/routes/userRoute');
+const notesRoute = require('./app/routes/notes');
 
 // routes direct
 app.use(`${appConfig.apiVersion}/users`, userRoutes);
+app.use(`${appConfig.apiVersion}/notes`, notesRoute);
 
 
 // create and listen to server

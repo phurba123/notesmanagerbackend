@@ -28,7 +28,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.1.9",
     "pm2": "^5.2.0",
-    "shortid": "^2.2.16"
+    "shortid": "^2.2.16",
+    "uniqid": "^5.4.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
