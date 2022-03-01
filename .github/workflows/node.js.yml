@@ -25,7 +25,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: touch .env
-          echo DEV_DBURI=mongodb+srv://phursang:phursang%40123@cluster0.v7a1n.mongodb.net/myFirstDatabase?retryWrites=true > .env
+          echo DEV_DBURI="mongodb+srv://phursang:phursang%40123@cluster0.v7a1n.mongodb.net/myFirstDatabase?retryWrites=true" > .env
           cat .env
     - run: npm i
     # - run: pm2 restart 0
