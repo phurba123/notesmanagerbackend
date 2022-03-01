@@ -22,9 +22,15 @@ let createNote = (req,res)=>
                 apiresponse = logger.generate(true,'topic is empty',500,null)
                 reject(apiresponse)
             }
+            else if(checkLib.isEmpty(req.body.userId))
+            {
+                apiresponse = logger.generate(true, 'user id not present', 500, null);
+                reject(apiresponse);
+            }
             else
             {
                 let note = new notesModel({
+                    userId : req.body.userId,
                     topic : req.body.topic,
                 });
     
@@ -32,6 +38,7 @@ let createNote = (req,res)=>
                 {
                     if(err)
                     {
+                        console.log('err : ', err)
                         apiresponse = logger.generate(true,'error while saving note',500,err);
                         reject(apiresponse)
                     }
@@ -134,7 +141,7 @@ let getNotes = (req,res)=>
     else
     {
         notesModel.find({_id : req.params.notetopicid})
-        .select('notes')
+        .select('notes topic')
         .exec((err,allnotes)=>
         {
             if(err)
@@ -149,9 +156,56 @@ let getNotes = (req,res)=>
     }
 }
 
+// get all topics
+let getAllTopics = (req,res)=>
+{
+    console.log('inside get all topics')
+    //
+    let gettingAlltopics = ()=>
+    {
+        return new Promise((resolve,reject)=>
+        {
+            if(checkLib.isEmpty(req.params.id))
+            {
+                apiresponse = logger.generate(true,'no id provided',500,null);
+                reject(apiresponse);
+            }
+            else
+            {
+                notesModel.find({userId : req.params.id})
+                .select('-notes')
+                .exec((err,allTopics)=>
+                {
+                    if(err)
+                    {
+                        apiresponse =logger.generate(true, 'error while finding notes', 500, err);
+                        reject(apiresponse);
+                    }
+                    else
+                    {
+                        apiresponse =logger.generate(false, 'all note topics found', 200, allTopics);
+                        resolve(apiresponse);
+                    }
+                })
+            }
+        })
+    }
+
+    gettingAlltopics(req,res)
+    .then((val)=>
+    {
+        res.send(val);
+    })
+    .catch((err)=>
+    {
+        res.send(err);
+    })
+}
+
 module.exports =
 {
     createNote,
     getNotes,
-    pushContent
+    pushContent,
+    getAllTopics
 }

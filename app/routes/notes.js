@@ -19,11 +19,17 @@ routes for users crud operation
 router.post('/create', notesController.createNote);
 
 // pushing content to topic
+/**
+ *  Body , noteDesc, topicId
+ */
 router.post('/input/:topicId', notesController.pushContent);
 
 //get notes for provided notetopic id
 router.get('/get/:notetopicid', notesController.getNotes);
 
-router.get('/hello', (req,res)=>res.send('hello bro'))
+router.get('/hello', (req,res)=>res.send('hello bro'));
+
+//getting all topics
+router.get('/get/all/:id', notesController.getAllTopics);
 
 module.exports = router;

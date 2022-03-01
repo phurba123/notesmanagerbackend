@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const schema = mongoose.Schema;
 
 let mySchema = new schema({
-    id:{
+    userId:{
         type:String,
-        unique:true
+        required:true
     },
     topic :{
         type:String,
