@@ -9,6 +9,7 @@ let bodyParser = require('body-parser');
 let iplogger = require('./app/middleware/iplogger');
 const helmet = require('helmet');
 require('dotenv').config();
+const https = require('https');
 
 // global middlewares
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -31,13 +32,33 @@ const notesRoute = require('./app/routes/notes');
 // routes direct
 app.use(`${appConfig.apiVersion}/users`, userRoutes);
 app.use(`${appConfig.apiVersion}/notes`, notesRoute);
+console.log('env : ', process.env.NODE_ENV);
 
 
 // create and listen to server
-let server = http.createServer(app);
-server.listen(appConfig.port);
-server.on('listening', onListening);
-server.on('error', onError);
+if(process.env.NODE_ENV === "dev")
+{
+    console.log('in dev sever')
+    let server = http.createServer(app);
+    server.listen(appConfig.port);
+    server.on('listening', onListening);
+    server.on('error', onError);
+}
+else
+{
+    //this server is for prod env
+    console.log('in prod env');
+    const https_options = {
+        ca: fs.readFileSync("../ssl/ca_bundle.crt"),
+        key: fs.readFileSync("../ssl/private.key"),
+        cert: fs.readFileSync("../ssl/certificate.crt")
+    };
+    let server = https.createServer(https_options , app);
+    server.listen(appConfig.port || process.env.PORT);
+    server.on('listening', onListening);
+    server.on('error', onError);
+}
+
 
 // callback function when server is listening
 
